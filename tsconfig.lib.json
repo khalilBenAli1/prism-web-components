@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "package",
+    "rootDir": "src/components"
+  },
+  "include": ["src/components"],
+  "exclude": []
+}

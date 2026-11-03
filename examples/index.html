@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>HTML consumer — Prism</title
+  ><link rel="stylesheet" href="../package/tokens.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "lit": "../vendor/lit.js",
+        "lit/directives/if-defined.js": "../vendor/if-defined.js"
+      }
+    }
+  </script>
+  <body>
+    <main>
+      <h1>Workspace settings</h1>
+      <form>
+        <prism-text-field label="Workspace name" name="workspace" required></prism-text-field
+        ><prism-button type="submit">Save workspace</prism-button>
+      </form>
+    </main>
+    <script type="module" src="./consumer.ts"></script>
+  </body>
+</html>
