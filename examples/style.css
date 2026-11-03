@@ -46,7 +46,7 @@ main {
   margin: auto;
 }
 .eyebrow {
-  font: 9px monospace;
+  font: 9px var(--prism-mono, monospace);
   letter-spacing: 1.5px;
   color: var(--prism-muted);
 }
@@ -79,7 +79,7 @@ section {
   align-items: baseline;
 }
 .section-heading > span {
-  font: 11px monospace;
+  font: 11px var(--prism-mono, monospace);
   color: var(--prism-accent);
 }
 h2 {

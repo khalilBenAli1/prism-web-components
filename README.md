@@ -14,7 +14,7 @@ An original component-library portfolio study, created November 2026. Twelve nat
 - **Forms:** text field, textarea, checkbox, switch and select. Native labels, validation, FormData, disabled fieldsets and reset through ElementInternals.
 - **Structure:** automatically activated keyboard tabs, a native modal with composed-tree focus containment and restoration, and native details disclosures.
 - **Feedback:** semantic badges, bounded/indeterminate progress and persistent polite status announcements.
-- **Design:** scoped shadow CSS, supported custom properties/parts, two themes, three accent families and an editable radius token. No remote fonts or runtime imagery.
+- **Design:** scoped shadow CSS, supported custom properties/parts, two themes, three accent families and an editable radius token. Self-hosted Geist/Geist Mono and no runtime imagery.
 
 Each component has a working preview, typed property/attribute contract, slots, parts, events and keyboard notes. Search navigation, copyable examples, responsive previews and the token playground are functional. Hash links such as `/#dialog` are refresh-safe on the Pages subpath.
 
@@ -78,7 +78,7 @@ The latest measured production build (Node zlib gzip; no performance-score claim
 | Combined documentation + HTML-example JavaScript | 95.9 kB | 27.7 kB |
 | Combined CSS                                     | 26.0 kB |  6.2 kB |
 
-Budgets fail the build above 30 kB library / 150 kB combined JS / 40 kB combined CSS. The combined figure includes both page entries; a visitor does not load both at once. There is no runtime font or image payload. Screenshots are documentation-only.
+Budgets fail the build above 30 kB library / 150 kB combined JS / 40 kB combined CSS. The combined figure includes both page entries; a visitor does not load both at once. Two Latin variable WOFF2 fonts are self-hosted; there is no runtime image payload. Screenshots are documentation-only.
 
 `npm audit --omit=dev` reported zero advisories on 3 November 2026. The full audit reported nine moderate development-tooling advisories inherited from minimatch's glob-parts amplification advisory ([GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)); these tools do not ship in the static demo. No unsafe forced major-version overrides were applied.
 
@@ -90,4 +90,4 @@ Pure progress/tab rules, documentation fixture data, specimen rendering, scoped 
 
 [Mobile workbench](docs/screenshots/workbench-mobile.png) · [Dark theme](docs/screenshots/workbench-dark.png) · [Token lab](docs/screenshots/tokens-desktop.png) · [Mobile HTML settings](docs/screenshots/settings-mobile.png)
 
-MIT for original code. Third-party packages and operating-system fonts retain their own licenses. No private client code or assets are included.
+MIT for original code. Third-party packages and font assets retain their own licenses. No private client code or assets are included.

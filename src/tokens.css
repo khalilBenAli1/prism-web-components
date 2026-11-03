@@ -1,5 +1,6 @@
 :root {
-  --prism-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --prism-font: 'Geist Variable', sans-serif;
+  --prism-mono: 'Geist Mono Variable', monospace;
   --prism-text: #23212b;
   --prism-muted: #686371;
   --prism-surface: #ffffff;

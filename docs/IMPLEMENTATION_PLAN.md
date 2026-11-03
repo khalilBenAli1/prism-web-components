@@ -4,7 +4,7 @@ An original, fictional component system; no existing screenshot reference is sup
 
 1. Foundation: strict Lit/TypeScript, pinned toolchain, independent public repo, reproducible CI.
 2. Component slice: twelve native-backed shadow components, explicit events and styling contracts.
-3. Workbench: white paper, precise black type, saturated violet, coral/lime secondary accents; desktop sidebar, quiet top bar, an oversized component heading, dotted live canvas and an inspector. Mobile stacks inspector below preview. System sans + monospace only. No photography or external font requests.
+3. Workbench: white paper, precise black type, saturated violet, coral/lime secondary accents; desktop sidebar, quiet top bar, an oversized component heading, dotted live canvas and an inspector. Mobile stacks inspector below preview. Geist Variable + Geist Mono Variable only, as required by the later typography directive; self-hosted Latin WOFF2 with OFL notices. No photography or external font requests.
 4. Validate: built package HTML example, required forms, disabled/loading/error, keyboard tabs and dialog focus, progress/status; Chromium and WebKit, axe, 390/768/1440 reflow, theme/reduced motion.
 5. Release: measured payload, honest docs/limits, screenshots and visual verdict >=90, feature PR with green CI, merge and GitHub Pages verification.
 

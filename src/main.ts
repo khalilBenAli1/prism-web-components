@@ -4,6 +4,7 @@ import type { PrismDialog } from './components';
 import { components } from './catalog';
 import { renderDemo } from './workbench/demos';
 import './tokens.css';
+import './fonts.css';
 import './style.css';
 let active = location.hash.slice(1) || 'button';
 let view = 'preview';
@@ -294,7 +295,7 @@ function tokens() {
       <div>
         <h2>Type that gets out of the way.</h2>
         <p class="type-large">Clarity comes naturally.</p>
-        <code>System sans · 14 / 16 / 24 / 48</code>
+        <code>Geist · 14 / 16 / 24 / 48</code>
       </div>
       <div>
         <h2>A rhythm to build on.</h2>

@@ -13,8 +13,10 @@ Actual checks, 3 November 2026. No Lighthouse score, accessibility certification
 
 ## Payload budgets
 
-`npm run budget` measures actual emitted files after every production build and fails if combined docs/example JS exceeds150,000 bytes, combined CSS exceeds40,000 bytes, or the external-Lit library exceeds30,000 bytes. Gzip sizes are measured with Node zlib, not estimated. Final measured values are in README.md. There are no runtime image/font requests. Curated screenshots are documentation-only and are not loaded by the demo.
+`npm run budget` measures actual emitted files after every production build and fails if combined docs/example JS exceeds150,000 bytes, combined CSS exceeds40,000 bytes, or the external-Lit library exceeds30,000 bytes. Gzip sizes are measured with Node zlib, not estimated. Final measured values are in README.md. There are no remote font requests or runtime images. Two self-hosted WOFF2 fonts have an 80 kB combined budget. Curated screenshots are documentation-only and are not loaded by the demo.
 
 ## Known gaps
 
 No broad assistive-technology/device matrix, Firefox, iOS VoiceOver, RTL, localization, OS forced-colors, nested modal or nested-shadow form audit. No persistence or real submission. Field labels must be supplied. Status is a simple persistent polite notice, not a queue. All constraints are visible in each component's API/keyboard documentation and architecture notes.
+
+The final typography pass uses exactly Geist Variable and Geist Mono Variable, loaded from two local Latin WOFF2 assets (52,528 bytes combined). Both loaded successfully in the actual production preview; all 30 browser checks remained green after the change.

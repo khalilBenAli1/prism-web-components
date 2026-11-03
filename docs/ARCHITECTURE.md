@@ -24,7 +24,7 @@ Only the opt-in `tokens.css` affects the consumer document, defining custom prop
 
 Modern browsers with Custom Elements, Shadow DOM, ElementInternals and native dialog are required. Chromium and WebKit are tested. Firefox, legacy browsers, forced-colors OS modes, screen-reader combinations, RTL and localization need further evaluation. No certification is implied. Forms across an additional outer shadow boundary, nested modal dialogs, dynamically edited option text, multi-select, asynchronous comboboxes and file inputs are outside this small library's scope. Replace an option element to update its text. A label property is required; external HTML labels do not cross shadow boundaries. Submit/reset buttons locate an ancestor form in their document tree.
 
-The docs aim for WCAG 2.2 AA and show both state and text for feedback. Automated axe checks are evidence for scanned states, not proof for every assistive technology. No server-side renderer is provided; component registration is browser-only. There is no runtime storage, backend, account, telemetry or external font request.
+The docs aim for WCAG 2.2 AA and show both state and text for feedback. Automated axe checks are evidence for scanned states, not proof for every assistive technology. No server-side renderer is provided; component registration is browser-only. There is no runtime storage, backend, account, telemetry or external font request. Two self-hosted Latin variable WOFF2 families, Geist and Geist Mono, give the workbench its own typography. Font assets are separate from the library export and retain OFL-1.1 notices.
 
 ## Tooling decisions
 

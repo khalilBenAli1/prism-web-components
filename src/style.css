@@ -84,7 +84,7 @@ button {
   color: var(--prism-text);
 }
 .version {
-  font-family: monospace;
+  font-family: var(--prism-mono, monospace);
   color: var(--prism-muted);
   border: 1px solid var(--prism-border);
   border-radius: 5px;
@@ -192,7 +192,7 @@ button {
   margin-bottom: 9px;
 }
 .components-label span {
-  font-family: monospace;
+  font-family: var(--prism-mono, monospace);
   letter-spacing: 0;
   background: var(--prism-subtle);
   border-radius: 4px;
@@ -332,7 +332,7 @@ h1 {
 .component-heading prism-badge {
   align-self: flex-end;
   margin-bottom: 7px;
-  --prism-font: monospace;
+  --prism-font: var(--prism-mono, monospace);
   font-size: 9px;
   padding: 3px 7px;
 }
@@ -462,7 +462,7 @@ h1 {
   max-width: 300px;
 }
 .specimen-label {
-  font: 8px monospace;
+  font: 8px var(--prism-mono, monospace);
   letter-spacing: 1.5px;
   color: var(--prism-muted);
   text-align: center;
@@ -499,7 +499,7 @@ h1 {
   left: 0;
   right: 0;
   text-align: center;
-  font-family: monospace;
+  font-family: var(--prism-mono, monospace);
   font-size: 9px;
   color: var(--prism-muted);
   opacity: 0.8;
@@ -584,7 +584,7 @@ h1 {
 }
 .control-label > span {
   float: right;
-  font-family: monospace;
+  font-family: var(--prism-mono, monospace);
   font-size: 9px;
 }
 .control-label input[type='range'] {
@@ -682,7 +682,7 @@ h1 {
   overflow-x: auto;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-family: var(--prism-mono, monospace);
 }
 .under-preview {
   display: grid;
@@ -954,7 +954,7 @@ td:first-child {
 }
 .token-controls strong {
   float: right;
-  font-family: monospace;
+  font-family: var(--prism-mono, monospace);
   font-size: 10px;
 }
 .token-controls input {
@@ -1052,7 +1052,7 @@ td:first-child {
   margin-top: 45px;
 }
 .step-number {
-  font-family: monospace;
+  font-family: var(--prism-mono, monospace);
   font-size: 12px;
   color: var(--prism-accent);
 }

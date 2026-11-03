@@ -1,6 +1,7 @@
 // Deliberately consumes the output artifact, never src/components.
 import '@khalilbenali/prism-web-components';
 import '@khalilbenali/prism-web-components/tokens.css';
+import '../src/fonts.css';
 const form = document.querySelector<HTMLFormElement>('#settings')!;
 const result = document.querySelector('prism-status')!;
 const dialog = document.querySelector('prism-dialog')!;

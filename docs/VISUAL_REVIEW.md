@@ -38,3 +38,7 @@ The first token/settings screenshots revealed a real style-precedence defect: in
   "reasoning": "The final desktop token and mobile settings views match the precise written art direction; the consumer layout defect is corrected and protected by meaningful browser tests."
 }
 ```
+
+## Distinct typography pass
+
+The later user directive reserves Geist for Prism interface/display and Geist Mono for technical text. Both are now locally bundled Latin variable WOFF2 files with OFL notices. After fonts were ready, all five actual screenshots were recaptured; the desktop and mobile workbench were opened and inspected. Verdict remains 93/pass: hierarchy, spacing, compact navigation and the functional canvas remain coherent, with no clipping. All 30 browser tests remain green.
