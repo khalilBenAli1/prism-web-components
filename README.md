@@ -76,9 +76,10 @@ The latest measured production build (Node zlib gzip; no performance-score claim
 | ------------------------------------------------ | ------: | ------: |
 | Library, excluding external Lit runtime          | 23.3 kB |  5.8 kB |
 | Combined documentation + HTML-example JavaScript | 95.9 kB | 27.7 kB |
-| Combined CSS                                     | 26.0 kB |  6.2 kB |
+| Combined CSS                                     | 26.5 kB |  6.4 kB |
+| Self-hosted WOFF2 fonts (already compressed)     | 52.5 kB |       — |
 
-Budgets fail the build above 30 kB library / 150 kB combined JS / 40 kB combined CSS. The combined figure includes both page entries; a visitor does not load both at once. Two Latin variable WOFF2 fonts are self-hosted; there is no runtime image payload. Screenshots are documentation-only.
+Budgets fail the build above 30 kB library / 150 kB combined JS / 40 kB combined CSS / 80 kB fonts. The combined figure includes both page entries; a visitor does not load both at once. Two Latin variable WOFF2 fonts are self-hosted; there is no runtime image payload. Screenshots are documentation-only.
 
 `npm audit --omit=dev` reported zero advisories on 3 November 2026. The full audit reported nine moderate development-tooling advisories inherited from minimatch's glob-parts amplification advisory ([GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)); these tools do not ship in the static demo. No unsafe forced major-version overrides were applied.
 
