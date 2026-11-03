@@ -75,7 +75,7 @@ The latest measured production build (Node zlib gzip; no performance-score claim
 | Output                                           |     Raw |    Gzip |
 | ------------------------------------------------ | ------: | ------: |
 | Library, excluding external Lit runtime          | 23.3 kB |  5.8 kB |
-| Combined documentation + HTML-example JavaScript | 95.9 kB | 27.7 kB |
+| Combined documentation + HTML-example JavaScript | 96.0 kB | 27.7 kB |
 | Combined CSS                                     | 26.5 kB |  6.4 kB |
 | Self-hosted WOFF2 fonts (already compressed)     | 52.5 kB |       — |
 

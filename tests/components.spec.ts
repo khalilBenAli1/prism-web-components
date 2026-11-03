@@ -213,7 +213,9 @@ for (const width of [390, 768, 1440])
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('');
     expect(
-      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+      ),
     ).toBe(true);
     if (width === 390) {
       await page.getByRole('button', { name: 'Toggle component navigation' }).click();
@@ -224,7 +226,9 @@ for (const width of [390, 768, 1440])
     }
     await page.goto('examples/index.html');
     expect(
-      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+      ),
     ).toBe(true);
   });
 test('all twelve component screens, dark theme and HTML consumer pass axe', async ({ page }) => {
@@ -290,12 +294,20 @@ test('dark button variants, long labels and skip navigation remain usable', asyn
     .evaluate((el) => {
       el.textContent = 'Create a thoughtfully named project for the whole team';
     });
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+    ),
+  ).toBe(true);
   await page.goto('examples/index.html');
   await page
     .getByLabel('Workspace name')
     .fill('A thoughtfully named studio for a very long project title');
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+    ),
+  ).toBe(true);
 });
 
 test('native select defaults and reset match submitted values', async ({ page }) => {
@@ -375,4 +387,64 @@ test('required textarea, select and checkbox participate in native validity', as
   expect(
     await page.locator('#settings').evaluate((form) => (form as HTMLFormElement).checkValidity()),
   ).toBe(true);
+});
+
+test.describe('mobile layout viewport', () => {
+  test.use({ isMobile: true, hasTouch: true, viewport: { width: 390, height: 844 } });
+  test('all component views and long form feedback stay within the layout viewport', async ({
+    page,
+  }) => {
+    for (const [id, title] of [
+      ['button', 'Button.'],
+      ['text-field', 'Text field.'],
+      ['textarea', 'Textarea.'],
+      ['checkbox', 'Checkbox.'],
+      ['switch', 'Switch.'],
+      ['select', 'Select.'],
+      ['tabs', 'Tabs.'],
+      ['dialog', 'Dialog.'],
+      ['accordion', 'Accordion.'],
+      ['badge', 'Badge.'],
+      ['progress', 'Progress.'],
+      ['status', 'Status.'],
+      ['tokens', 'Small details. One clear language.'],
+      ['start', 'Just add HTML.'],
+    ]) {
+      await page.goto(`#${id}`);
+      await expect(page.getByRole('heading', { level: 1, name: title, exact: true })).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      const dimensions = await page.evaluate(() => ({
+        client: document.documentElement.clientWidth,
+        scroll: document.documentElement.scrollWidth,
+      }));
+      expect(dimensions.client).toBe(390);
+      expect(dimensions.scroll, `${id}: ${JSON.stringify(dimensions)}`).toBeLessThanOrEqual(
+        dimensions.client,
+      );
+    }
+    await page.goto('examples/index.html');
+    for (const workspace of [
+      'A thoughtfully named studio for a very long project title',
+      'StudioNorthWorkspaceForThoughtfulAndCollaborativeProjects',
+    ]) {
+      await page.getByLabel('Workspace name').fill(workspace);
+      await page.getByRole('button', { name: 'Save changes' }).click();
+      await expect(page.getByRole('status')).toContainText(workspace);
+      await page.getByRole('button', { name: 'Dismiss notification' }).scrollIntoViewIfNeeded();
+      await expect(page.getByRole('button', { name: 'Dismiss notification' })).toBeInViewport();
+      await page.evaluate(() => document.fonts.ready);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+        ),
+      ).toBe(true);
+    }
+    await page.getByRole('button', { name: 'Review values' }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+      ),
+    ).toBe(true);
+  });
 });
