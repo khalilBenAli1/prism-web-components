@@ -45,7 +45,7 @@ export class PrismButton extends LitElement {
       }
       .danger {
         background: var(--prism-danger, #b42336);
-        color: white;
+        color: var(--prism-on-danger, white);
       }
       .spinner {
         height: 14px;
@@ -62,8 +62,12 @@ export class PrismButton extends LitElement {
       }
     `,
   ];
+  focus(options?: FocusOptions) {
+    this.renderRoot.querySelector('button')?.focus(options);
+  }
   private activate() {
     if (this.disabled || this.loading) return;
+    this.focus();
     const form = this.closest('form');
     if (this.type === 'submit') form?.requestSubmit();
     if (this.type === 'reset') form?.reset();

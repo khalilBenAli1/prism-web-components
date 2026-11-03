@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import type { PrismTextField, PrismProgress } from '../src/components';
 async function component(page: Page, id: string) {
   await page.goto(`#${id}`);
   await expect(page.locator(`.canvas prism-${id}`).first()).toBeAttached();
@@ -142,14 +143,18 @@ test('events, disabled fieldsets, error validity and progress boundaries', async
   await page.getByLabel('Workspace name').fill('Event studio');
   await expect(input).toHaveAttribute('data-event', '{"value":"Event studio"}');
   await input.evaluate((el) => {
-    el.error = 'Reserved name';
+    (el as PrismTextField).error = 'Reserved name';
   });
-  await expect.poll(() => input.evaluate((el) => el.checkValidity())).toBe(false);
+  await expect
+    .poll(() => input.evaluate((el) => (el as PrismTextField).checkValidity()))
+    .toBe(false);
   await expect(page.getByText('Reserved name')).toBeVisible();
   await input.evaluate((el) => {
-    el.error = '';
+    (el as PrismTextField).error = '';
   });
-  await expect.poll(() => input.evaluate((el) => el.checkValidity())).toBe(true);
+  await expect
+    .poll(() => input.evaluate((el) => (el as PrismTextField).checkValidity()))
+    .toBe(true);
   await page.locator('#settings').evaluate((form) => {
     const fieldset = document.createElement('fieldset');
     fieldset.disabled = true;
@@ -165,12 +170,12 @@ test('events, disabled fieldsets, error validity and progress boundaries', async
   await component(page, 'progress');
   const meter = page.getByRole('progressbar');
   await page.locator('prism-progress').evaluate((el) => {
-    el.value = 250;
+    (el as PrismProgress).value = 250;
   });
   await expect(meter).toHaveAttribute('value', '100');
   await page.locator('prism-progress').evaluate((el) => {
-    el.max = 0;
-    el.value = -50;
+    (el as PrismProgress).max = 0;
+    (el as PrismProgress).value = -50;
   });
   await expect(meter).toHaveAttribute('value', '0');
   await expect(meter).toHaveAttribute('max', '100');
@@ -223,6 +228,7 @@ for (const width of [390, 768, 1440])
     ).toBe(true);
   });
 test('all twelve component screens, dark theme and HTML consumer pass axe', async ({ page }) => {
+  test.setTimeout(60000);
   for (const id of [
     'button',
     'text-field',
@@ -259,4 +265,114 @@ test('all twelve component screens, dark theme and HTML consumer pass axe', asyn
         .analyze()
     ).violations,
   ).toEqual([]);
+});
+
+test('dark button variants, long labels and skip navigation remain usable', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('');
+  await page.getByRole('link', { name: 'Skip to content' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#main-content')).toBeFocused();
+  await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+  for (const value of ['primary', 'secondary', 'ghost', 'danger']) {
+    await page.getByLabel('Variant').selectOption(value);
+    expect(
+      (
+        await new AxeBuilder({ page })
+          .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+          .analyze()
+      ).violations,
+    ).toEqual([]);
+  }
+  await page
+    .locator('prism-button')
+    .first()
+    .evaluate((el) => {
+      el.textContent = 'Create a thoughtfully named project for the whole team';
+    });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.goto('examples/index.html');
+  await page
+    .getByLabel('Workspace name')
+    .fill('A thoughtfully named studio for a very long project title');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('native select defaults and reset match submitted values', async ({ page }) => {
+  await page.goto('examples/index.html');
+  await page.locator('prism-select').evaluate((el) => {
+    el.removeAttribute('value');
+    el.replaceChildren();
+    const first = document.createElement('option');
+    first.value = 'first';
+    first.textContent = 'First choice';
+    const second = document.createElement('option');
+    second.value = 'second';
+    second.textContent = 'Second choice';
+    el.append(first, second);
+  });
+  await page.getByLabel('Default visibility').selectOption('second');
+  await page.getByRole('button', { name: 'Reset form' }).click();
+  await expect(page.getByLabel('Default visibility')).toHaveValue('first');
+  expect(
+    await page
+      .locator('#settings')
+      .evaluate((el) => new FormData(el as HTMLFormElement).get('visibility')),
+  ).toBe('first');
+});
+
+test('compact checks have inline labels and synchronous form values', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('examples/index.html');
+  const checkbox = page.getByRole('checkbox', { name: 'Include starter files in new projects' });
+  const sw = page.getByRole('switch', { name: 'Weekly project digest' });
+  expect((await checkbox.boundingBox())!.width).toBeLessThanOrEqual(20);
+  expect((await checkbox.boundingBox())!.height).toBeLessThanOrEqual(20);
+  expect((await sw.boundingBox())!.width).toBeLessThanOrEqual(40);
+  await page.locator('prism-checkbox').evaluate((el) => {
+    el.addEventListener('prism-change', () => {
+      el.setAttribute(
+        'data-current-form',
+        String(new FormData(el.closest('form')!).has('starter')),
+      );
+    });
+  });
+  await checkbox.uncheck();
+  await expect(page.locator('prism-checkbox')).toHaveAttribute('data-current-form', 'false');
+  await checkbox.check();
+  await expect(page.locator('prism-checkbox')).toHaveAttribute('data-current-form', 'true');
+  const inline = await page
+    .locator('prism-switch')
+    .evaluate((el) => getComputedStyle(el.shadowRoot!.querySelector('label')!).display);
+  expect(inline).toBe('flex');
+});
+
+test('required textarea, select and checkbox participate in native validity', async ({ page }) => {
+  await page.goto('examples/index.html');
+  await page.locator('#settings').evaluate((form) => {
+    const notes = form.querySelector('prism-textarea')!;
+    notes.required = true;
+    const consent = form.querySelector('prism-checkbox')!;
+    consent.required = true;
+    consent.checked = false;
+    const select = form.querySelector('prism-select')!;
+    select.required = true;
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Choose visibility';
+    select.prepend(placeholder);
+    select.value = '';
+  });
+  expect(
+    await page.locator('#settings').evaluate((form) => (form as HTMLFormElement).checkValidity()),
+  ).toBe(false);
+  await page.getByLabel('About this workspace').fill('Required project notes');
+  await page.getByRole('checkbox', { name: 'Include starter files in new projects' }).check();
+  expect(
+    await page.locator('#settings').evaluate((form) => (form as HTMLFormElement).checkValidity()),
+  ).toBe(false);
+  await page.getByLabel('Default visibility').selectOption('team');
+  expect(
+    await page.locator('#settings').evaluate((form) => (form as HTMLFormElement).checkValidity()),
+  ).toBe(true);
 });

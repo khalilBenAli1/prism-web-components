@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { shared, fieldStyles } from './styles';
 export interface PrismValueDetail {
@@ -152,7 +152,14 @@ export class PrismSelect extends PrismField {
       label: o.text,
       disabled: o.disabled,
     }));
+    if (!this.value && !this.hasAttribute('value'))
+      this.value = this.options.find((option) => !option.disabled)?.value ?? '';
     this.requestUpdate();
+  }
+  formResetCallback() {
+    this.value =
+      this.getAttribute('value') ?? this.options.find((option) => !option.disabled)?.value ?? '';
+    this.error = '';
   }
   render() {
     return html`<label
@@ -194,14 +201,75 @@ export class PrismCheckbox extends LitElement {
   protected get isDisabled() {
     return this.disabled || this.fieldsetDisabled;
   }
-  static styles = [shared, fieldStyles];
+  static styles = [
+    shared,
+    fieldStyles,
+    css`
+      label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      input {
+        width: 18px;
+        height: 18px;
+        min-height: 18px;
+        flex-shrink: 0;
+        padding: 0;
+        margin: 0;
+        accent-color: var(--prism-accent, #6941d9);
+      }
+      :host([disabled]) label {
+        cursor: not-allowed;
+      }
+      :host(prism-switch) input {
+        appearance: none;
+        position: relative;
+        width: 38px;
+        height: 23px;
+        min-height: 23px;
+        border: 0;
+        border-radius: 20px;
+        background: var(--prism-border, #d8d5e0);
+        padding: 0;
+        flex-shrink: 0;
+      }
+      :host(prism-switch) input::after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0 1px 3px #0003;
+        transition: transform var(--prism-motion, 150ms);
+      }
+      :host(prism-switch) input:checked {
+        background: var(--prism-accent, #6941d9);
+      }
+      :host(prism-switch) input:checked::after {
+        transform: translateX(15px);
+      }
+      label {
+        min-height: 44px;
+      }
+    `,
+  ];
   updated() {
+    this.sync();
+  }
+  private sync() {
     this.internals.setFormValue(this.checked && !this.isDisabled ? this.value : null);
     const control = this.renderRoot.querySelector('input');
     if (control) this.internals.setValidity(control.validity, control.validationMessage, control);
   }
   protected toggle(event: Event) {
     this.checked = (event.target as HTMLInputElement).checked;
+    this.sync();
     this.dispatchEvent(
       new CustomEvent<PrismCheckedDetail>('prism-change', {
         detail: { checked: this.checked, value: this.value },
@@ -227,57 +295,7 @@ export class PrismCheckbox extends LitElement {
     return undefined as string | undefined;
   }
   render() {
-    return html`<style>
-        label {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          font-weight: 500;
-          cursor: pointer;
-        }
-        input {
-          width: 18px;
-          min-height: 18px;
-          margin: 0;
-          accent-color: var(--prism-accent, #6941d9);
-        }
-        :host([disabled]) label {
-          cursor: not-allowed;
-        }
-        :host(prism-switch) input {
-          appearance: none;
-          position: relative;
-          width: 38px;
-          height: 23px;
-          min-height: 23px;
-          border: 0;
-          border-radius: 20px;
-          background: var(--prism-border, #d8d5e0);
-          padding: 0;
-          flex-shrink: 0;
-        }
-        :host(prism-switch) input::after {
-          content: '';
-          position: absolute;
-          top: 3px;
-          left: 3px;
-          width: 17px;
-          height: 17px;
-          border-radius: 50%;
-          background: white;
-          box-shadow: 0 1px 3px #0003;
-          transition: transform var(--prism-motion, 150ms);
-        }
-        :host(prism-switch) input:checked {
-          background: var(--prism-accent, #6941d9);
-        }
-        :host(prism-switch) input:checked::after {
-          transform: translateX(15px);
-        }
-        label {
-          min-height: 44px;
-        }</style
-      ><label
+    return html`<label
         ><input
           part="control"
           type="checkbox"

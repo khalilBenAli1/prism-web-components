@@ -50,3 +50,17 @@ declare global {
     'prism-status': PrismStatus;
   }
 }
+
+declare global {
+  interface GlobalEventHandlersEventMap {
+    'prism-input': CustomEvent<import('./fields').PrismValueDetail>;
+    'prism-change': CustomEvent<
+      | import('./fields').PrismValueDetail
+      | import('./fields').PrismCheckedDetail
+      | { selected: number }
+    >;
+    'prism-toggle': CustomEvent<{ open: boolean }>;
+    'prism-close': CustomEvent<void>;
+    'prism-dismiss': CustomEvent<void>;
+  }
+}

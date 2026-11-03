@@ -4,8 +4,8 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "outDir": "package",
-    "rootDir": "src/components"
+    "rootDir": "src"
   },
-  "include": ["src/components"],
+  "include": ["src/components", "src/domain"],
   "exclude": []
 }

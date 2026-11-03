@@ -11,6 +11,7 @@
   --prism-focus: #6c4ee3;
   --prism-radius: 8px;
   --prism-motion: 150ms;
+  --prism-on-danger: #ffffff;
   --prism-danger: #b42336;
   --prism-danger-bg: #fff0f2;
   --prism-success: #23603e;
@@ -35,6 +36,7 @@
   --prism-accent-soft: #352650;
   --prism-on-accent: #24133e;
   --prism-focus: #d6c7ff;
+  --prism-on-danger: #40101b;
   --prism-danger: #ff9fb0;
   --prism-danger-bg: #4c2431;
   --prism-success: #a2dfbc;

@@ -1,5 +1,6 @@
 import { LitElement, html, css, type PropertyValues } from 'lit';
 import { shared } from './styles';
+import { tabDestination } from '../domain/interaction';
 import { activeElement, focusableElements } from './focus';
 export class PrismTabs extends LitElement {
   static properties = { labels: {}, selected: { type: Number, reflect: true }, label: {} };
@@ -62,17 +63,8 @@ export class PrismTabs extends LitElement {
   }
   private key(event: KeyboardEvent) {
     const count = this.names.length;
-    const next =
-      event.key === 'ArrowRight'
-        ? (this.selected + 1) % count
-        : event.key === 'ArrowLeft'
-          ? (this.selected - 1 + count) % count
-          : event.key === 'Home'
-            ? 0
-            : event.key === 'End'
-              ? count - 1
-              : -1;
-    if (next >= 0) {
+    const next = tabDestination(event.key, this.selected, count);
+    if (next !== null) {
       event.preventDefault();
       this.select(next, true);
     }
