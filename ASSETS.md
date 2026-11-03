@@ -1,0 +1,7 @@
+# Asset provenance
+
+- Prism name, triangular logo, favicon, workbench design, written examples and CSS artwork: original portfolio work by Khalil Ben Ali, November 2026. MIT code license applies.
+- No photography, external icon library, customer logo, endorsement or borrowed product screenshot is used.
+- Typography: Geist Variable for the interface/display and Geist Mono Variable for code. Latin normal variable WOFF2 files are bundled locally from pinned @fontsource-variable/geist 5.3.0 and @fontsource-variable/geist-mono 5.3.0. Copyright 2024 The Geist Project Authors; SIL Open Font License 1.1. Full unmodified notices are in docs/licenses/Geist-OFL.txt and Geist-Mono-OFL.txt. Sources: [Geist project](https://github.com/vercel/geist-font), [Fontsource](https://fontsource.org/fonts/geist). No external font service is contacted. These font files retain OFL rather than the code MIT license.
+- `docs/screenshots/`: actual locally captured production-build screenshots of this repo. They are evidence of the implementation, not external reference mockups.
+- Lit 3.3.3 and its runtime dependencies are BSD-3-Clause licensed by their respective authors. See the license files distributed in installed `lit`, `lit-element`, `lit-html` and `@lit/reactive-element` packages. Development tooling retains its own licenses; package-lock.json records exact versions. MIT does not relicense third-party dependencies.

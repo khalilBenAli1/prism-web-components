@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { shared } from './styles';
+import { normalizeProgress } from '../domain/interaction';
 export class PrismBadge extends LitElement {
   static properties = { tone: { reflect: true } };
   tone: 'neutral' | 'success' | 'warning' | 'accent' = 'neutral';
@@ -82,11 +83,10 @@ export class PrismProgress extends LitElement {
     `,
   ];
   render() {
-    const max = Number.isFinite(this.max) && this.max > 0 ? this.max : 100;
-    const value = Number.isFinite(this.value) ? Math.max(0, Math.min(this.value, max)) : 0;
+    const { value, max, percent } = normalizeProgress(this.value, this.max);
     return html`<div class="label">
         <span id="label">${this.label}</span
-        ><span>${this.indeterminate ? 'In progress' : `${Math.round((value / max) * 100)}%`}</span>
+        ><span>${this.indeterminate ? 'In progress' : `${percent}%`}</span>
       </div>
       ${this.indeterminate ? html`<progress part="track" aria-labelledby="label" max=${max}></progress>` : html`<progress part="track" aria-labelledby="label" max=${max} value=${value}></progress>`}`;
   }
