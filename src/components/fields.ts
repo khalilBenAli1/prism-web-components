@@ -1,4 +1,4 @@
-import { LitElement, html, type PropertyValues } from 'lit';
+import { LitElement, html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { shared, fieldStyles } from './styles';
 export interface PrismValueDetail {
@@ -45,7 +45,7 @@ export abstract class PrismField extends LitElement {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >('input,textarea,select');
   }
-  updated(_changed: PropertyValues) {
+  updated() {
     this.sync();
   }
   protected sync() {
@@ -177,7 +177,7 @@ export class PrismCheckbox extends LitElement {
     label: {},
     name: { reflect: true },
     value: {},
-    checked: { type: Boolean, reflect: true },
+    checked: { type: Boolean },
     disabled: { type: Boolean, reflect: true },
     required: { type: Boolean, reflect: true },
     hint: {},

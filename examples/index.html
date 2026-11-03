@@ -1,25 +1,90 @@
 <!doctype html>
 <html lang="en">
-  <meta charset="utf-8" /><meta
-    name="viewport"
-    content="width=device-width,initial-scale=1"
-  /><title>HTML consumer — Prism</title
-  ><link rel="stylesheet" href="../package/tokens.css" />
-  <script type="importmap">
-    {
-      "imports": {
-        "lit": "../vendor/lit.js",
-        "lit/directives/if-defined.js": "../vendor/if-defined.js"
-      }
-    }
-  </script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="A plain HTML settings form consuming Prism's built package."
+    />
+    <title>Workspace settings — Prism HTML example</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
   <body>
+    <header>
+      <a href="../">△ prism <span>/ HTML example</span></a
+      ><button id="theme">Dark theme</button>
+    </header>
     <main>
-      <h1>Workspace settings</h1>
-      <form>
-        <prism-text-field label="Workspace name" name="workspace" required></prism-text-field
-        ><prism-button type="submit">Save workspace</prism-button>
+      <div class="eyebrow">BUILT WITH PRISM / STANDARD HTML</div>
+      <div class="heading">
+        <h1>A space for<br />your best work.</h1>
+        <prism-badge tone="accent">Local demo</prism-badge>
+      </div>
+      <p class="intro">A small settings page. Real form behavior. No framework required.</p>
+      <form id="settings">
+        <section>
+          <div class="section-heading">
+            <span>01</span>
+            <div>
+              <h2>Your workspace</h2>
+              <p>The little details that make it yours.</p>
+            </div>
+          </div>
+          <prism-text-field
+            label="Workspace name"
+            name="workspace"
+            value="Studio North"
+            required
+            hint="Required. Use a fictional workspace name."
+          ></prism-text-field
+          ><prism-select label="Default visibility" name="visibility" value="team"
+            ><option value="team">Team members</option>
+            <option value="private">Only me</option></prism-select
+          ><prism-textarea
+            label="About this workspace"
+            name="description"
+            placeholder="A home for good ideas."
+            hint="Keep personal information out of this demo."
+          ></prism-textarea>
+        </section>
+        <section>
+          <div class="section-heading">
+            <span>02</span>
+            <div>
+              <h2>Make yourself at home</h2>
+              <p>A few preferences for a calmer workday.</p>
+            </div>
+          </div>
+          <prism-switch
+            label="Weekly project digest"
+            name="digest"
+            checked
+            hint="A demo preference. No email is sent."
+          ></prism-switch
+          ><prism-checkbox
+            label="Include starter files in new projects"
+            name="starter"
+            checked
+          ></prism-checkbox>
+        </section>
+        <div class="form-actions">
+          <prism-button type="submit">Save changes ↗</prism-button
+          ><prism-button type="reset" variant="secondary">Reset form</prism-button
+          ><prism-button id="review" variant="ghost">Review values</prism-button>
+        </div>
       </form>
+      <prism-status id="result" dismissible></prism-status
+      ><prism-dialog id="review-dialog" label="Your workspace, at a glance"
+        ><p>These values come directly from native FormData. Nothing leaves this page.</p>
+        <pre id="form-values"></pre>
+        <prism-button slot="footer" id="close-review">Looks good</prism-button></prism-dialog
+      >
+      <footer>
+        <a href="../#start">← Back to the workbench</a
+        ><span>Built package · Lit · ElementInternals</span>
+      </footer>
     </main>
     <script type="module" src="./consumer.ts"></script>
   </body>

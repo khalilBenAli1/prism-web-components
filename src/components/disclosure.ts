@@ -1,5 +1,6 @@
 import { LitElement, html, css, type PropertyValues } from 'lit';
 import { shared } from './styles';
+import { activeElement, focusableElements } from './focus';
 export class PrismTabs extends LitElement {
   static properties = { labels: {}, selected: { type: Number, reflect: true }, label: {} };
   labels = 'Overview,Details,Activity';
@@ -141,11 +142,24 @@ export class PrismDialog extends LitElement {
   updated(changed: PropertyValues) {
     if (changed.has('open')) {
       if (this.open && !this.dialog?.open) {
-        let active = document.activeElement;
-        while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+        const active = activeElement();
         this.previousFocus = active instanceof HTMLElement ? active : null;
         this.dialog?.showModal();
       } else if (!this.open && this.dialog?.open) this.dialog.close();
+    }
+  }
+  private containFocus(event: KeyboardEvent) {
+    if (event.key !== 'Tab' || !this.dialog) return;
+    const controls = focusableElements(this.dialog);
+    const first = controls[0];
+    const last = controls.at(-1);
+    const active = activeElement();
+    if (event.shiftKey && active === first && last) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last && first) {
+      event.preventDefault();
+      first.focus();
     }
   }
   private closed() {
@@ -157,6 +171,7 @@ export class PrismDialog extends LitElement {
     return html`<dialog
       part="panel"
       aria-labelledby="title"
+      @keydown=${this.containFocus}
       @close=${this.closed}
       @cancel=${() => {
         this.open = false;
