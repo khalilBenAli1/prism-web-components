@@ -103,6 +103,7 @@ export class PrismStatus extends LitElement {
         display: block;
       }
       .notice {
+        overflow-wrap: anywhere;
         display: flex;
         align-items: center;
         gap: 12px;
@@ -121,6 +122,7 @@ export class PrismStatus extends LitElement {
         font-size: 18px;
       }
       button {
+        flex-shrink: 0;
         margin-left: auto;
         color: inherit;
         background: none;

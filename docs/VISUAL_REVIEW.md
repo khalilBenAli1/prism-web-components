@@ -42,3 +42,7 @@ The first token/settings screenshots revealed a real style-precedence defect: in
 ## Distinct typography pass
 
 The later user directive reserves Geist for Prism interface/display and Geist Mono for technical text. Both are now locally bundled Latin variable WOFF2 files with OFL notices. After fonts were ready, all five actual screenshots were recaptured; the desktop and mobile workbench were opened and inspected. Verdict remains 93/pass: hierarchy, spacing, compact navigation and the functional canvas remain coherent, with no clipping. All 30 browser tests remain green.
+
+## Long-name mobile regression
+
+A true mobile 390px context showed that unbroken workspace feedback expanded scrollWidth and innerWidth to 514px while clientWidth remained 390px. Verdict: 80/revise. A scoped Status overflow-wrap:anywhere rule and non-shrinking dismiss button corrected the message without redesigning the form. The recaptured long-name mobile screenshot is 390px wide, and all three measurements are 390px. Final verdict: 93/pass; the existing type hierarchy, spacing and readable feedback are preserved.
